@@ -2,9 +2,9 @@
   <header class="pt-5 pb-5 absolute w-full">
     <BaseContainer>
       <div class="flex items-center justify-between">
-        <BaseHeaderBurger />
+        <BaseBurger />
         <BaseLineHorizontal class="ml-4 mr-8" />
-        <BaseHeaderLogo />
+        <HeaderLogo />
         <BaseLineHorizontal class="ml-8 mr-4" />
         <div>
           bag

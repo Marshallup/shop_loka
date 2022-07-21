@@ -7,6 +7,9 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@pinia/nuxt',
   ],
+  meta: {
+    title: 'SHOP LUKA',
+  },
   build: {
     postcss: {
       postcssOptions: {

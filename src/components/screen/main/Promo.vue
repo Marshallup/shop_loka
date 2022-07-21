@@ -13,6 +13,34 @@
       >
         healthy skin
       </BaseTypography>
+
+      <div class="mt-8">
+        <div class="flex justify-center">
+          <SliderPromo />
+          <div>
+            <NuxtLink to="/shop">
+              <div
+                class="
+                  flex
+                  items-center
+                  uppercase
+                  rounded-full
+                  tracking-[0.7em]
+                  border-textMain
+                  border-[1px]
+                  py-[115px]
+                  px-[67px]
+                "
+              >
+                <div class="mr-4">
+                  shop
+                </div>
+                <BaseIconArrow />
+              </div>
+            </NuxtLink>
+          </div>
+        </div>
+      </div>
     </BaseContainer>
   </div>
 </template>
