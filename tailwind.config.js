@@ -26,11 +26,14 @@ module.exports = {
       },
       fontSize: {
         '2.5xl': '1.625rem',
+        '6xl': '3.5rem',
       },
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      margin: ['responsive', 'hover', 'first', 'last'],
+    },
   },
   plugins: [],
 };

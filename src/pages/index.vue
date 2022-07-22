@@ -1,5 +1,8 @@
 <template>
-  <ScreenMainPromo />
+  <div>
+    <ScreenMainPromo />
+    <ScreenMainPromoDescr />
+  </div>
 </template>
 
 <script lang="ts" setup>
