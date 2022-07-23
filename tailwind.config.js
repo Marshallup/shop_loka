@@ -16,6 +16,7 @@ module.exports = {
         textMain: '#564D42',
         beigeMain: 'rgb(216,208,200)',
         beigeOpacity: '#584F43',
+        blueOpacity: '#E3E3E3',
       },
       fontFamily: {
         newYork: ['NewYork', 'sans-serif'],
