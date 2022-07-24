@@ -29,4 +29,10 @@
 
 :root {
   --baseHeaderHeight: 79px;
+  --bgMain: rgb(234,234,234);
+  --textMain: #564D42;
+  --beigeMain: rgb(216,208,200);
+  --beigeOpacity: #584F43;
+  --blueOpacity: #E3E3E3;
+  --beigeOther: #C4C4C4;
 }

@@ -1,14 +1,28 @@
 <template>
-  <button>
-    <div
+  <button
     class="
-      relative
-      rounded-full
-      border-[1px]
-      border-textMain
-      cursor-pointer
+      flex
+      items-center
     "
-    :class="`${buttonSizeClass} ${buttonMrClass}`"
+  >
+    <div
+      v-if="props.title"
+      class="
+        mr-3
+        uppercase
+      "
+    >
+      {{ props.title }}
+    </div>
+    <div
+      class="
+        relative
+        rounded-full
+        border-[1px]
+        border-textMain
+        cursor-pointer
+      "
+      :class="`${buttonSizeClass} ${buttonMrClass} ${props.size}`"
     >
     <div
       v-if="isBigArrow"
@@ -38,6 +52,7 @@
         >
           <BaseIconArrowLong
             :class="isLeftDir ? 'rotate-180 mt-[0.5px]' : ''"
+            :is-longer="isLgSize"
           />
         </div>
       </div>
@@ -47,6 +62,7 @@
 
 <script setup lang="ts">
 interface ButtonProps {
+  title?: string,
   size?: 'md' | 'lg' | 'sm' | 'big',
   dir?: 'left' | 'right',
 }
@@ -68,10 +84,14 @@ const isBigArrow = computed(() => {
   }
 });
 
+const isLgSize = computed(() => props.size === 'lg');
+
 const buttonSizeClass = computed(() => {
   switch (props.size) {
     case 'big':
       return 'py-[115px] px-[67px]';
+    case 'lg':
+      return 'p-[65px]';
     case 'sm':
       return 'p-[24px]';
     default:
@@ -79,17 +99,29 @@ const buttonSizeClass = computed(() => {
   }
 });
 const buttonMrClass = computed(() => {
+  let mClass = 'm';
+
+  switch(props.dir) {
+    case 'left':
+      mClass += 'r-';
+      break;
+    default:
+      mClass += 'l-';
+      break;
+  }
+
   switch (props.size) {
     case 'big':
       return '';
+    case 'lg':
+      mClass += '8';
+      break;
     default:
-      if (props.dir === 'left') {
-        return 'mr-5';
-      }
-
-      return 'ml-5';
-
+      mClass += '5';
+      break;
   }
+
+  return mClass;
 });
 const arrowPosClass = computed(() => {
   switch(props.dir) {
@@ -103,6 +135,8 @@ const arrowPosClass = computed(() => {
 const isLeftDir = computed(() => props.dir === 'left');
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+.lg {
+  margin-left: 40px;
+}
 </style>

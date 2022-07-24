@@ -12,11 +12,12 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        bgMain: 'rgb(234,234,234)',
-        textMain: '#564D42',
-        beigeMain: 'rgb(216,208,200)',
-        beigeOpacity: '#584F43',
-        blueOpacity: '#E3E3E3',
+        bgMain: 'var(--bgMain)',
+        textMain: 'var(--textMain)',
+        beigeMain: 'var(--beigeMain)',
+        beigeOpacity: 'var(--beigeOpacity)',
+        blueOpacity: 'var(--blueOpacity)',
+        beigeOther: 'var(--beigeOther)',
       },
       fontFamily: {
         newYork: ['NewYork', 'sans-serif'],
@@ -27,8 +28,16 @@ module.exports = {
       },
       fontSize: {
         '2.5xl': '1.625rem',
-        '6xl': '3.5rem',
+        '6xl': [
+          '3.5rem',
+          {
+            lineHeight: '68px',
+          }
+        ],
       },
+      margin: {
+        '5px': '5px',
+      }
     },
   },
   variants: {
