@@ -34,6 +34,12 @@ module.exports = {
             lineHeight: '68px',
           }
         ],
+        'title1': [
+          '3.9rem',
+          {
+            lineHeight: '77px',
+          }
+        ]
       },
       margin: {
         '5px': '5px',

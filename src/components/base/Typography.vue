@@ -1,6 +1,6 @@
 <template>
   <component
-    :is="props.tag"
+    :is="tag"
     :class="tagClasses"
   >
     <slot />
@@ -10,7 +10,7 @@
 <script setup lang="ts">
 
 interface TypographyProps {
-  tag: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p',
+  tag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'title3' | 'title1',
 }
 
 const props = withDefaults(
@@ -20,10 +20,25 @@ const props = withDefaults(
   }
 );
 
+const tag = computed(() => {
+  switch(props.tag) {
+    case 'title3':
+      return 'div';
+    case 'title1':
+      return 'div';
+    default:
+      return props.tag;
+  }
+})
+
 const tagClasses = computed(() => {
   switch(props.tag) {
     case 'h1':
       return 'text-6xl';
+    case 'title1':
+      return 'text-title1 uppercase';
+    case 'title3':
+      return 'uppercase leading-[20px] mb-6'
   }
 })
 </script>

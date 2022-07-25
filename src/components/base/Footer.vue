@@ -1,5 +1,11 @@
 <template>
-  <footer>
+  <footer
+    class="
+      py-12
+      border-textMain
+      border-t
+    "
+  >
     <BaseContainer>
       footer
     </BaseContainer>

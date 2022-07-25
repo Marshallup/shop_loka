@@ -2,7 +2,7 @@
   <div class="layout layout-default flex flex-col min-h-screen justify-between">
       <BaseHeader />
       
-      <main class="flex-grow">
+      <main class="flex-grow pb-20">
         <slot />
       </main>
 

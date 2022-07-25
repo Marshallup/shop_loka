@@ -3,7 +3,11 @@
     <div
       v-if="props.title"
     >
-      {{ props.title }}
+      <BaseTypography
+        tag="title3"
+      >
+        {{ props.title }}
+      </BaseTypography>
     </div>
     <div>
       <div
@@ -11,7 +15,7 @@
         :key="row.id"
         class="
           border-black
-          border-b
+          border-b-2
           pb-4
           mb-3
           last:mb-0
