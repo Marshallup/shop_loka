@@ -61,6 +61,7 @@
 </template>
 
 <script setup lang="ts">
+
 interface ButtonProps {
   title?: string,
   size?: 'md' | 'lg' | 'sm' | 'big',
@@ -85,8 +86,7 @@ const isBigArrow = computed(() => {
 });
 
 const isLgSize = computed(() => props.size === 'lg');
-
-const buttonSizeClass = computed(() => {
+const buttonSizeClass = computed<string>(() => {
   switch (props.size) {
     case 'big':
       return 'py-[115px] px-[67px]';
@@ -98,30 +98,27 @@ const buttonSizeClass = computed(() => {
       return 'p-[30px]';
   }
 });
-const buttonMrClass = computed(() => {
-  let mClass = 'm';
-
+const buttonMrClass = computed<string>(() => {
   switch(props.dir) {
     case 'left':
-      mClass += 'r-';
-      break;
+      switch(props.size) {
+        case 'big':
+          return '';
+        case 'lg':
+          return 'mr-8';
+        default:
+          return 'mr-5';
+      }
     default:
-      mClass += 'l-';
-      break;
+      switch(props.size) {
+        case 'big':
+          return '';
+        case 'lg':
+          return 'ml-8';
+        default:
+          return 'ml-5';
+      }
   }
-
-  switch (props.size) {
-    case 'big':
-      return '';
-    case 'lg':
-      mClass += '8';
-      break;
-    default:
-      mClass += '5';
-      break;
-  }
-
-  return mClass;
 });
 const arrowPosClass = computed(() => {
   switch(props.dir) {
@@ -131,8 +128,8 @@ const arrowPosClass = computed(() => {
       return 'left-0 -translate-x-1/2';
   }
 });
-
 const isLeftDir = computed(() => props.dir === 'left');
+
 </script>
 
 <style lang="scss" scoped>

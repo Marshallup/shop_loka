@@ -6,7 +6,11 @@
     "
     :class="paddingClass"
   >
-    <slot />
+    <div
+      :class="removeSideClass"
+    >
+      <slot />
+    </div>
   </div>
 </template>
 
@@ -26,7 +30,18 @@ const paddingClass = computed(() => {
     default:
       return 'px-12';
   }
-})
+});
+const removeSideClass = computed(() => {
+  switch(props.removeSide) {
+    case 'left':
+      return '';
+    case 'right':
+      // return 'ml-[max(0px_,0px)]';
+      return '';
+    default:
+      return '';
+  }
+});
 
 </script>
 

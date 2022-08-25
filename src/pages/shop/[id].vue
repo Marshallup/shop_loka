@@ -173,7 +173,8 @@
     </div>
 
     <div class="
-      mt-[150px]
+      mt-[10rem]
+      mb-[3rem]
     ">
       <div>
         <SliderGoodsLike

@@ -20,7 +20,24 @@
             ml-auto
           "
         >
-          nav
+          <div
+            class="
+              flex
+              gap-x-6
+            "
+          >
+            <BaseButton
+              dir="left"
+              size="sm"
+              class="goods-like__arrow-left"
+              @click="prevSilde"
+            />
+            <BaseButton
+              size="sm"
+              class="goods-like__arrow-right"
+              @click="nextSlide"
+            />
+          </div>
         </div>
       </div>
     </BaseContainer>
@@ -33,16 +50,40 @@
       >
         <swiper
           :modules="modules"
-          :navigation="true as undefined"
+          :slidesPerView="3.4"
+          :spaceBetween="23"
           class="
             h-full
           "
+          @swiper="onSwiper"
         >
           <SwiperSlide>
-            slide1
+            <CardFill
+              title="Moisturizing cream"
+              company="cleanser"
+              price="42"
+            />
           </SwiperSlide>
           <SwiperSlide>
-            slide2
+            <CardFill
+              title="Moisturizing cream123"
+              company="cleanser"
+              price="42"
+            />
+          </SwiperSlide>
+          <SwiperSlide>
+            <CardFill
+              title="Moisturizing cream123"
+              company="cleanser"
+              price="42"
+            />
+          </SwiperSlide>
+          <SwiperSlide>
+            <CardFill
+              title="Moisturizing cream123"
+              company="cleanser"
+              price="42"
+            />
           </SwiperSlide>
         </swiper>
       </BaseContainer>
@@ -51,7 +92,7 @@
 </template>
 
 <script setup lang="ts">
-import { Navigation } from 'swiper';
+import { Navigation, Swiper as SwiperClass } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 
 import 'swiper/css';
@@ -63,6 +104,23 @@ interface SliderGoodsLikeProps {
 
 const props = defineProps<SliderGoodsLikeProps>();
 const modules = [ Navigation ];
+const swiperEx = ref<SwiperClass | null>(null);
+
+function onSwiper(swiperEl: SwiperClass) {
+  swiperEx.value = swiperEl;
+}
+
+function nextSlide() {
+  if (unref(swiperEx)) {
+    unref(swiperEx).slideNext();
+  }
+}
+
+function prevSilde() {
+  if (unref(swiperEx)) {
+    unref(swiperEx).slidePrev();
+  }
+}
 
 </script>
 
