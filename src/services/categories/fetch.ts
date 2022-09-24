@@ -1,4 +1,4 @@
-import { Category } from "~~/src/models/Category";
+import { Category } from "~~/src/domain/category";
 import { FetchModel } from "~~/src/types/Fetch";
 
 class FetchClass implements FetchModel {
@@ -7,7 +7,6 @@ class FetchClass implements FetchModel {
       "categories",
       {
         key: 'categories',
-        transform: categoriesDto => categoriesDto.map(categoryDto => new Category(categoryDto)),
         default: () => [],
       })
   }

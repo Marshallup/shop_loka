@@ -1,4 +1,4 @@
-import { Good } from "@/models/Good";
+import { Good } from "~~/src/domain/good";
 import { FetchModel } from "~~/src/types/Fetch";
 
 class FetchClass implements FetchModel {
@@ -7,7 +7,6 @@ class FetchClass implements FetchModel {
       "goods",
       {
         key: 'goods',
-        transform: (goodsDto => goodsDto.map(goodDto => new Good(goodDto))),
         default: () => [],
       },
     )

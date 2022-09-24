@@ -17,14 +17,22 @@
                   ({{ item.countGoods }})
                 </span>
               </div>
-              <div v-if="idxItem == 0">filtr</div>
+              <div v-if="idxItem == 0">
+                <DropdownSimple
+                  v-model="filterVal"
+                  :data="[{ value: 'ww', label: 'test' }]"
+                />
+              </div>
             </div>
           </BaseContainer>
         </div>
 
         <div class="grid grid-cols-2 border-black border-b">
-          <CatalogListItem
+          <CardCatalog
             v-for="good in item.goods"
+            :src="getPublicImageSrc(good.mainPhoto?.path)"
+            :link="`/shop/${good.id}`"
+            :title="good.title"
             :key="good.id"
             class="basis-2/4 border-black border-r border-t even:border-r-0"
           />
@@ -35,8 +43,8 @@
 </template>
 
 <script setup lang="ts">
-import { Category } from "~~/src/models/Category";
-import { Good } from "~~/src/models/Good";
+import { Category } from "@/domain/category";
+import { Good } from "@/domain/good";
 import { getUniqID } from "~~/src/utils/helpers";
 
 interface BaseCatalogListProps {
@@ -51,7 +59,9 @@ interface IData {
 }
 
 const props = defineProps<BaseCatalogListProps>();
+const { getPublicImageSrc } = useImage();
 
+const filterVal = ref(null);
 const data = computed<IData[]>(() => {
   const arr = [];
 

@@ -18,6 +18,7 @@ module.exports = {
         beigeOpacity: 'var(--beigeOpacity)',
         blueOpacity: 'var(--blueOpacity)',
         beigeOther: 'var(--beigeOther)',
+        'regular-1': 'var(--regular-1)',
       },
       fontFamily: {
         newYork: ['NewYork', 'sans-serif'],
@@ -27,6 +28,7 @@ module.exports = {
         smallVery: '0.03rem',
       },
       fontSize: {
+        'sm': '0.938rem',
         '2.5xl': '1.625rem',
         '6xl': [
           '3.5rem',
