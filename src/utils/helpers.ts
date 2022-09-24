@@ -11,3 +11,10 @@ export function isLastElementsByIdx(
 
   return false;
 }
+function getUniqMemoID () {
+  let uniqID = 0;
+
+  return () => uniqID += 1;
+}
+
+export const getUniqID = getUniqMemoID();
