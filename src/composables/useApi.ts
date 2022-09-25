@@ -1,6 +1,7 @@
+import { Ref } from "nuxt/dist/app/compat/capi";
 import { UseFetchOptions } from "nuxt/dist/app/composables";
 
-export const useApi = async <T extends unknown>(path = '', opts: UseFetchOptions<T> = {}) => {
+export const useApi = async <T extends unknown>(path: string | Ref<string> | (() => string) = '', opts: UseFetchOptions<T> = {}) => {
   const config = useRuntimeConfig();
   return useFetch(
     path,

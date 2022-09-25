@@ -10,6 +10,9 @@ export default defineNuxtConfig({
   meta: {
     title: 'SHOP LUKA',
   },
+  css: [
+    '@/assets/scss/index.scss',
+  ],
   runtimeConfig: {
     public: {
       apiUrl: process.env.API_URL,

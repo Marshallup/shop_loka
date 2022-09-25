@@ -20,7 +20,8 @@
               <div v-if="idxItem == 0">
                 <DropdownSimple
                   v-model="filterVal"
-                  :data="[{ value: 'ww', label: 'test' }]"
+                  :data="dropdownFilterData"
+                  dropdown-class="min-h-[250px]"
                 />
               </div>
             </div>
@@ -48,8 +49,12 @@ import { Good } from "@/domain/good";
 import { getUniqID } from "~~/src/utils/helpers";
 
 interface BaseCatalogListProps {
+  filterVal: "all" | number;
   goods: Good[];
   caregories: Category[];
+}
+interface ListEmits {
+  (e: "update:filterVal", val: BaseCatalogListProps["filterVal"]): void;
 }
 interface IData {
   id: number;
@@ -59,9 +64,21 @@ interface IData {
 }
 
 const props = defineProps<BaseCatalogListProps>();
+const emit = defineEmits<ListEmits>();
 const { getPublicImageSrc } = useImage();
 
-const filterVal = ref(null);
+const filterVal = computed({
+  get: () => props.filterVal,
+  set: (val) => emit("update:filterVal", val),
+});
+const dropdownFilterData = computed(() => {
+  const categoriesData = props.caregories.map((category) => ({
+    value: category.id,
+    label: category.title,
+  }));
+
+  return [{ value: "all", label: "All" }, ...categoriesData];
+});
 const data = computed<IData[]>(() => {
   const arr = [];
 
