@@ -1,3 +1,4 @@
+import { ComputedRef } from "nuxt/dist/app/compat/capi";
 import { Good } from "~~/src/domain/good";
 import { FetchModel } from "~~/src/types/Fetch";
 import { CategoryID, IGetAllFilter } from "./types";
@@ -13,7 +14,7 @@ class FetchClass implements FetchModel {
         })}`,
       {
         key: 'goods',
-        default: () => [],
+        default: () => ([]),
         watch: [categoryID]
       },
     )
@@ -21,6 +22,16 @@ class FetchClass implements FetchModel {
       ...data,
       categoryID,
     }))
+  }
+
+  async getByID(id) {
+    return useApi<Good | null>(
+      `goods/${id}`,
+      {
+        key: `good-${id}`,
+        default: () => null,
+      }
+    )
   }
 }
 

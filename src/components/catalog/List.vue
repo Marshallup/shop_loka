@@ -2,30 +2,15 @@
   <div class="mb-4 last:mb-0">
     <div class="mt-5 mb-10">
       <div
-        v-for="(item, idxItem) in data"
+        v-for="(item, itemIdx) in data"
         :key="item.id"
         class="mb-14 last:mb-0"
       >
-        <div class="mb-11">
-          <BaseContainer>
-            <div class="flex justify-between items-center">
-              <div class="relative text-black">
-                <h5 class="font-newYork text-6xl pr-5">
-                  {{ item.categoryTitle }}
-                </h5>
-                <span class="absolute text-sm font-normal top-0 right-0">
-                  ({{ item.countGoods }})
-                </span>
-              </div>
-              <div v-if="idxItem == 0">
-                <DropdownSimple
-                  v-model="filterVal"
-                  :data="dropdownFilterData"
-                  dropdown-class="min-h-[250px]"
-                />
-              </div>
-            </div>
-          </BaseContainer>
+        <div v-if="itemIdx !== 0" class="mb-11">
+          <CatalogListTitle
+            :title="item.categoryTitle"
+            :count="item.countGoods"
+          />
         </div>
 
         <div class="grid grid-cols-2 border-black border-b">
@@ -45,60 +30,18 @@
 
 <script setup lang="ts">
 import { Category } from "@/domain/category";
-import { Good } from "@/domain/good";
-import { getUniqID } from "~~/src/utils/helpers";
+import { IData } from "~~/src/types/components/GoodsList";
 
 interface BaseCatalogListProps {
   filterVal: "all" | number;
-  goods: Good[];
+  data?: IData[];
   caregories: Category[];
 }
-interface ListEmits {
-  (e: "update:filterVal", val: BaseCatalogListProps["filterVal"]): void;
-}
-interface IData {
-  id: number;
-  categoryTitle: string;
-  countGoods: number;
-  goods: Good[];
-}
 
-const props = defineProps<BaseCatalogListProps>();
-const emit = defineEmits<ListEmits>();
+withDefaults(defineProps<BaseCatalogListProps>(), {
+  data: () => [],
+});
 const { getPublicImageSrc } = useImage();
-
-const filterVal = computed({
-  get: () => props.filterVal,
-  set: (val) => emit("update:filterVal", val),
-});
-const dropdownFilterData = computed(() => {
-  const categoriesData = props.caregories.map((category) => ({
-    value: category.id,
-    label: category.title,
-  }));
-
-  return [{ value: "all", label: "All" }, ...categoriesData];
-});
-const data = computed<IData[]>(() => {
-  const arr = [];
-
-  props.caregories.forEach((category) => {
-    const goodsFiltered = props.goods.filter(
-      (good) => good.category?.id === category.id
-    );
-
-    if (goodsFiltered.length) {
-      arr.push({
-        id: getUniqID(),
-        categoryTitle: category.title,
-        countGoods: goodsFiltered.length,
-        goods: goodsFiltered,
-      });
-    }
-  });
-
-  return arr;
-});
 </script>
 
 <style scoped></style>

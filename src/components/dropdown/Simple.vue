@@ -38,14 +38,11 @@
 
 <script setup lang="ts">
 import { onClickOutside } from "@vueuse/core";
+import { SimpleData, SimpleItem } from "@/types/components/dropdownSimple";
 
-interface SimpleItem {
-  value: any;
-  label: string;
-}
 interface Simple {
   modelValue: any;
-  data?: SimpleItem[];
+  data?: SimpleData;
   dropdownClass: string;
 }
 interface SimpleEmit {
