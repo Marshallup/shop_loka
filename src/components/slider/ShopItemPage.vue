@@ -1,37 +1,18 @@
 <template>
-  <div
-    class="
-      w-full
-      h-[500px]
-      shop-item-slider
-    "
-  >
+  <div class="w-full h-[500px] shop-item-slider">
     <swiper
       :modules="modules"
       effect="fade"
       :pagination="{ clickable: true } as undefined"
-      class="
-        h-full
-      "
+      class="h-full"
     >
       <swiper-slide
         v-for="slide in props.slides"
         :key="slide.id"
         class="bg-blueOpacity"
       >
-        <div
-          class="
-            flex
-            justify-center
-            items-center
-            h-full
-          "
-        >
-          <img
-            width="345"
-            height="400"
-            :src="slide.src"
-          />
+        <div class="flex justify-center items-center h-full">
+          <img width="345" height="400" :src="slide.src" />
         </div>
       </swiper-slide>
     </swiper>
@@ -39,24 +20,23 @@
 </template>
 
 <script setup lang="ts">
-import { EffectFade, Pagination } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/vue';
+import { EffectFade, Pagination } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/vue";
 
-import 'swiper/css';
-import 'swiper/css/effect-fade';
-import 'swiper/css/pagination';
+import "swiper/css";
+import "swiper/css/effect-fade";
+import "swiper/css/pagination";
 
 interface SliderShopItemPageProps {
   slides: {
-    id: string,
-    src: string,
-  }[],
+    id: string | number;
+    src: string;
+  }[];
 }
 
 const props = defineProps<SliderShopItemPageProps>();
 
-const modules = [ EffectFade, Pagination ];
-
+const modules = [EffectFade, Pagination];
 </script>
 
 <style lang="scss" scoped>

@@ -14,3 +14,13 @@ export interface Good {
   title: string;
   volume: string;
 }
+
+export function convertMlToOz(volume: string) {
+  const volumeNumber = parseInt(volume);
+
+  if (!isNaN(volumeNumber)) {
+    return String(Math.round(volumeNumber * 0.033814));
+  }
+
+  return volume;
+}

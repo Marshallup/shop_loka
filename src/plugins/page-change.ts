@@ -4,7 +4,7 @@ export default defineNuxtPlugin(() => {
 
   router.afterEach(() => {
     if (process.client && !firstLoad) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0 });
     }
 
     if (firstLoad) {
