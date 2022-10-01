@@ -1,6 +1,10 @@
 <template>
   <div class="relative min-w-[150px]">
-    <div class="mb-2 text-black cursor-pointer" @click="onClickCurLabel">
+    <div
+      :id="id"
+      class="mb-2 text-black cursor-pointer"
+      @click="onClickCurLabel"
+    >
       {{ currentLabel }}
     </div>
 
@@ -39,6 +43,7 @@
 <script setup lang="ts">
 import { onClickOutside } from "@vueuse/core";
 import { SimpleData, SimpleItem } from "@/types/components/dropdownSimple";
+import { getUniqID } from "@/utils/helpers";
 
 interface Simple {
   modelValue: any;
@@ -55,6 +60,7 @@ const props = withDefaults(defineProps<Simple>(), {
 });
 const emit = defineEmits<SimpleEmit>();
 
+const id = ref(`simple-${getUniqID()}`);
 const dropdownRef = ref<HTMLDivElement | null>(null);
 const value = computed({
   get: () => props.modelValue,
@@ -65,11 +71,18 @@ const currentLabel = computed(
 );
 const dropdownShow = ref(false);
 
-function onClickCurLabel() {
-  dropdownShow.value = !unref(dropdownShow);
-}
 function closeDropdown() {
   dropdownShow.value = false;
+}
+function openDropdown() {
+  dropdownShow.value = true;
+}
+function onClickCurLabel() {
+  if (unref(dropdownShow)) {
+    closeDropdown();
+  } else {
+    openDropdown();
+  }
 }
 function onClickClose() {
   closeDropdown();
@@ -81,6 +94,12 @@ function onClickDropdownItem(itemValue: SimpleItem["value"]) {
   }
 }
 
-onClickOutside(dropdownRef, closeDropdown);
+onClickOutside(dropdownRef, (event) => {
+  const target = event.target as HTMLElement;
+
+  if (target?.id !== unref(id)) {
+    closeDropdown();
+  }
+});
 </script>
 <style lang="scss" scoped></style>

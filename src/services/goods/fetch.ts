@@ -1,4 +1,3 @@
-import { ComputedRef } from "nuxt/dist/app/compat/capi";
 import { Good } from "~~/src/domain/good";
 import { FetchModel } from "~~/src/types/Fetch";
 import { CategoryID, IGetAllFilter } from "./types";

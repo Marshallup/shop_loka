@@ -1,5 +1,5 @@
 <template>
-  <component :is="tag" :class="tagClasses">
+  <component :is="tag" v-bind="$attrs" :class="[tagClasses, typeClasses]">
     <slot />
   </component>
 </template>
@@ -14,9 +14,11 @@ interface TypographyProps {
     | "h5"
     | "h6"
     | "p"
+    | "div"
     | "title3"
     | "title2"
     | "title1";
+  type?: "title2" | "title4";
 }
 
 const props = withDefaults(defineProps<TypographyProps>(), {
@@ -44,6 +46,17 @@ const tagClasses = computed(() => {
       return "uppercase text-title2";
     case "title3":
       return "uppercase leading-[20px] mb-6";
+  }
+});
+
+const typeClasses = computed(() => {
+  switch (props.type) {
+    case "title2":
+      return "uppercase text-title2";
+    case "title4":
+      return "text-2xl";
+    default:
+      return "";
   }
 });
 </script>

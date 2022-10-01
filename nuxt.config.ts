@@ -5,7 +5,14 @@ export default defineNuxtConfig({
   srcDir: 'src',
   modules: [
     '@nuxtjs/tailwindcss',
-    '@pinia/nuxt',
+    [
+      '@pinia/nuxt',
+      {
+        autoImports: [
+          ['defineStore', 'definePiniaStore']
+        ]
+      }
+    ]
   ],
   meta: {
     title: 'SHOP LUKA',
