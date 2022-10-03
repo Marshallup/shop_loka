@@ -9,8 +9,14 @@
           </div>
 
           <div>
-            <CardCart title="test" :count="15" img="/" />
-            <ListCartGoods :goods="goods" />
+            <CardCart
+              title="test"
+              vendor-code="123-asdas-32"
+              :price="3466"
+              :count="15"
+              img="/"
+            />
+            <ListCartGoods :goods="goods" @delete="onDeleteGoodCart" />
           </div>
         </div>
         <div class="w-[424px] max-w-full">
@@ -27,6 +33,10 @@ import { useCartStore } from "@/store/cart";
 const cartStore = useCartStore();
 
 const goods = computed(() => cartStore.goods);
+
+function onDeleteGoodCart(id: number) {
+  cartStore.removeGood(id);
+}
 </script>
 
 <style scoped></style>

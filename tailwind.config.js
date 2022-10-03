@@ -19,6 +19,7 @@ module.exports = {
         blueOpacity: 'var(--blueOpacity)',
         beigeOther: 'var(--beigeOther)',
         'regular-1': 'var(--regular-1)',
+        'regular-2': 'var(--regular-2)',
       },
       fontFamily: {
         newYork: ['NewYork', 'sans-serif'],

@@ -10,6 +10,7 @@ export interface Good {
   except: string;
   howUse: string;
   images?: Image[];
+  vendorCode: string;
   mainPhoto?: Image;
   price: number;
   title: string;

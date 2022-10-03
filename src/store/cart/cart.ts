@@ -36,11 +36,20 @@ export const useCartStore = defineStore('cart', () => {
     }
   }
 
+  function removeGood(goodID: number) {
+    const goodIdx = unref(goods).findIndex(goodItem => goodItem.id === goodID);
+
+    if (goodIdx > -1) {
+      goods.value.splice(goodIdx, 1);
+    }
+  }
+
   return {
     goods,
     countGoods,
     incCountGood,
     decCountGood,
     addGood,
+    removeGood,
   }
 })
