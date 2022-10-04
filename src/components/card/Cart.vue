@@ -5,7 +5,9 @@
     </div>
     <div class="flex-1">
       <div class="mb-6">
-        <BaseTypography tag="h3" type="title4">{{ title }}</BaseTypography>
+        <NuxtLink :to="`shop/${id}`">
+          <BaseTypography tag="h3" type="title4">{{ title }}</BaseTypography>
+        </NuxtLink>
         <div class="text-regular-2 text-sm font-light">
           Артикул: {{ vendorCode }}
         </div>
@@ -13,7 +15,12 @@
       <div class="text-sm">Наличие: 1 шт.</div>
     </div>
 
-    <div class="pl-4 pr-4">Кол - {{ count }}</div>
+    <div class="pl-4 pr-4">
+      <BaseFormSelect
+        v-model="countValue"
+        :options="[{ value: 1, label: 1 }]"
+      />
+    </div>
     <div class="pl-4 pr-4">
       <div class="text-xl">{{ priceValue }}</div>
     </div>
@@ -34,10 +41,10 @@
 </template>
 
 <script setup lang="ts">
-interface CartEmits {
-  (e: "delete"): void;
-}
+import { rubFormat } from "@/utils/priceFormat";
+
 interface CartProps {
+  id: number;
   img: string;
   title: string;
   count: number;
@@ -45,15 +52,19 @@ interface CartProps {
   price: number;
   favorite?: boolean;
 }
+interface CartEmits {
+  (e: "delete"): void;
+  (e: "update:count", v: CartProps["count"]): void;
+}
 
 const emits = defineEmits<CartEmits>();
 const props = withDefaults(defineProps<CartProps>(), { favorite: false });
 
-const priceValue = computed(() =>
-  new Intl.NumberFormat("ru-RU", { style: "currency", currency: "RUB" }).format(
-    props.price
-  )
-);
+const priceValue = computed(() => rubFormat(props.price));
+const countValue = computed({
+  get: () => props.count,
+  set: (val) => emits("update:count", val),
+});
 
 function onDeleteGood() {
   emits("delete");

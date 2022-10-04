@@ -2,6 +2,7 @@
   <div class="text-black">
     <div class="mt-[113px]">
       <BaseHeaderSpace />
+
       <div v-if="good">
         <BaseContainer>
           <div class="flex gap-x-12">
@@ -59,14 +60,11 @@
         </BaseContainer>
       </div>
       <div v-else>
-        <BaseTypography tag="title2" class="text-center mb-5">
-          Товара не найдено!
-        </BaseTypography>
-        <div class="flex justify-center">
-          <NuxtLink to="/shop">
-            <BaseButton title="Вернуться к списку товаров" />
-          </NuxtLink>
-        </div>
+        <BaseEmptyPage
+          title="Товара не найдено!"
+          btn-text="Вернуться к списку товаров"
+          link="/shop"
+        />
       </div>
     </div>
 

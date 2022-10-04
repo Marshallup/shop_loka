@@ -20,6 +20,7 @@ module.exports = {
         beigeOther: 'var(--beigeOther)',
         'regular-1': 'var(--regular-1)',
         'regular-2': 'var(--regular-2)',
+        'regular-3': 'var(--regular-3)',
       },
       fontFamily: {
         newYork: ['NewYork', 'sans-serif'],
