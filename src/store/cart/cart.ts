@@ -1,11 +1,40 @@
 import { defineStore } from "pinia"
-import { GoodCart } from "./types";
+import { GoodCart, FormCheckoutValues } from "./types";
 import { Good } from "../../domain/good";
+import { CART_STEPS } from "./enums";
+
+function getInitCheckoutValues(): FormCheckoutValues {
+  return {
+    name: "",
+    surname: "",
+    email: "",
+    phone: null,
+    country: "",
+    city: "",
+    index: "",
+    address: "",
+    comment: "",
+  }
+}
 
 export const useCartStore = defineStore('cart', () => {
   const goods = ref<GoodCart[]>([]);
   const countGoods = computed(() => unref(goods).reduce((prev, cur) => prev + cur.count, 0));
-  const totalPrice = computed(() => unref(goods).reduce((prev, cur) => prev + cur.count * cur.good.price ,0));
+  const totalPrice = computed(() => unref(goods).reduce((prev, cur) => prev + cur.count * cur.good.price, 0));
+  const cartStep = ref(CART_STEPS.CHANGE_ORDER_STEP);
+  const checkoutValues = ref(getInitCheckoutValues());
+
+  function nextStep() {
+    cartStep.value += 1;
+  }
+
+  function prevStep() {
+    cartStep.value -= 1;
+  }
+
+  function setStep(step: CART_STEPS) {
+    cartStep.value = step;
+  }
 
   function incCountGood(idx: number, count = 1) {
     const good = unref(goods)[idx];
@@ -53,7 +82,16 @@ export const useCartStore = defineStore('cart', () => {
     }
   }
 
+  function resetCart() {
+    goods.value = [];
+    cartStep.value = CART_STEPS.CHANGE_ORDER_STEP;
+    checkoutValues.value = getInitCheckoutValues();
+
+  }
+
   return {
+    checkoutValues,
+    cartStep,
     goods,
     countGoods,
     totalPrice,
@@ -62,5 +100,9 @@ export const useCartStore = defineStore('cart', () => {
     addGood,
     removeGood,
     setGoodCount,
+    nextStep,
+    prevStep,
+    setStep,
+    resetCart,
   }
 })

@@ -30,7 +30,7 @@
 
 <script setup lang="ts">
 import { Category } from "@/domain/category";
-import { IData } from "~~/src/types/components/GoodsList";
+import { IData } from "~~/src/types/components/goodsList";
 
 interface BaseCatalogListProps {
   filterVal: "all" | number;

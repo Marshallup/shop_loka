@@ -57,7 +57,7 @@
 
 <script setup lang="ts">
 import { onClickOutside } from "@vueuse/core";
-import { Options, Option } from "@/types/components/BaseFormSelect";
+import { Options, Option } from "~~/src/types/components/baseFormSelect";
 
 interface SelectProps {
   modelValue: string | number;

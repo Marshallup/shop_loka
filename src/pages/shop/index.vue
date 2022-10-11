@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { IData } from "~~/src/types/components/GoodsList";
+import { IData } from "~~/src/types/components/goodsList";
 import { FetchCategories } from "~~/src/services/categories";
 import { FetchGoods } from "~~/src/services/goods";
 import { getUniqID } from "~~/src/utils/helpers";

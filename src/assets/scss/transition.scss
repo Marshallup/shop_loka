@@ -7,3 +7,14 @@
 .fade-leave-to {
   opacity: 0;
 }
+
+.error-message-enter-active,
+.error-message-leave-active {
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease;
+}
+
+.error-message-enter-from,
+.error-message-leave-to {
+  transform: translateY(-10px);
+  opacity: 0;
+}

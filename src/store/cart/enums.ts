@@ -1,0 +1,6 @@
+export const enum CART_STEPS {
+  CHANGE_ORDER_STEP,
+  FORM_STEP,
+  CLIENT_DATA_STEP,
+  PROCESSED_ORDER,
+}

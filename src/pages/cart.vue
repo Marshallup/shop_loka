@@ -2,7 +2,8 @@
   <div class="mt-10">
     <BaseHeaderSpace />
     <BaseContainer>
-      <FormCheckout />
+      <!-- <TableCartOrder :table-rows="[{ title: 'w', text: 'ee' }]" /> -->
+      <!-- <FormCheckout /> -->
 
       <div v-if="goods.length" class="flex">
         <div class="flex-1 mr-20">
@@ -20,22 +21,35 @@
             />
           </div>
           <div v-else-if="isCheckoutStep">
-            <FormCheckout />
+            <FormCheckout
+              :init-values="checkoutValues"
+              @submit="onSubmitCheckout"
+              @change-order="onChangeOrder"
+            />
+          </div>
+          <div v-else-if="isShowOrderDataStep">
+            <TableCartOrder
+              :table-rows="tableCardOrderData"
+              @change-data="cartStore.prevStep"
+              @init-order="onInitOrder"
+            />
           </div>
         </div>
         <div class="w-[424px] max-w-full">
-          <div class="mb-16">
-            <BaseTypography tag="div" type="title2"> Итого: </BaseTypography>
-          </div>
+          <div v-if="!isProcessedOrder">
+            <div class="mb-16">
+              <BaseTypography tag="div" type="title2"> Итого: </BaseTypography>
+            </div>
 
-          <div class="sticky top-[50px]">
-            <CardDraft
-              :weight="20"
-              :count-goods="countGoods"
-              :total-price="totalPrice"
-              :show-btn="isCartStep"
-              @btn-click="onCheckoutInit"
-            />
+            <div class="sticky top-[50px]">
+              <CardDraft
+                :weight="20"
+                :count-goods="countGoods"
+                :total-price="totalPrice"
+                :show-btn="isCartStep"
+                @btn-click="cartStore.nextStep"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -53,6 +67,9 @@
 
 <script setup lang="ts">
 import { GoodCart, useCartStore } from "@/store/cart";
+import { FormCheckoutValues } from "@/store/cart";
+import { ITableRow } from "@/types/components/tableCheckout";
+import { CART_STEPS } from "@/store/cart/enums";
 
 const cartStore = useCartStore();
 
@@ -60,15 +77,54 @@ const goods = computed(() => cartStore.goods);
 const totalPrice = computed(() => cartStore.totalPrice);
 const countGoods = computed(() => cartStore.countGoods);
 
-const curStep = ref<1 | 2 | 3>(1);
-const isCartStep = computed(() => unref(curStep) === 1);
-const isCheckoutStep = computed(() => unref(curStep) === 2);
+const isCartStep = computed(
+  () => unref(cartStore).cartStep === CART_STEPS.CHANGE_ORDER_STEP
+);
+const isCheckoutStep = computed(
+  () => unref(cartStore).cartStep === CART_STEPS.FORM_STEP
+);
+const isShowOrderDataStep = computed(
+  () => unref(cartStore).cartStep === CART_STEPS.CLIENT_DATA_STEP
+);
+const isProcessedOrder = computed(
+  () => unref(cartStore).cartStep === CART_STEPS.PROCESSED_ORDER
+);
+
+const checkoutValues = computed({
+  get: () => cartStore.checkoutValues,
+  set: (val) => (cartStore.checkoutValues = val),
+});
+
+const tableCardOrderData = computed<ITableRow[]>(() => {
+  const values = unref(checkoutValues);
+
+  const createTableRow = <T, T2>(title: string, text: T2) => ({
+    title,
+    text,
+  });
+
+  return [
+    createTableRow("Имя", values.name),
+    createTableRow("Фамилия", values.surname),
+    createTableRow("Email", values.email),
+    createTableRow("Телефон", String(values.phone)),
+    createTableRow("Страна", values.country),
+    createTableRow("Город", values.city),
+    createTableRow("Почтовый индекс", values.index),
+    createTableRow("Адрес", values.address),
+    createTableRow("Комментарий", values.comment || "-"),
+  ];
+});
 
 const leftTitle = computed(() => {
   if (unref(isCartStep)) {
     return "Корзина";
   } else if (unref(isCheckoutStep)) {
     return "Оформление заказа";
+  } else if (unref(isShowOrderDataStep)) {
+    return "Все верно ?";
+  } else if (unref(isProcessedOrder)) {
+    return "Заказ оформлен";
   }
 
   return "";
@@ -80,8 +136,15 @@ function onDeleteGoodCart(id: number) {
 function onUpdateGoodCount(value: GoodCart["count"], id: GoodCart["id"]) {
   cartStore.setGoodCount(value, id);
 }
-function onCheckoutInit() {
-  curStep.value = 2;
+function onInitOrder() {
+  console.log("onInitOrder");
+}
+function onSubmitCheckout(values: FormCheckoutValues) {
+  checkoutValues.value = values;
+  cartStore.nextStep();
+}
+function onChangeOrder() {
+  cartStore.prevStep();
 }
 </script>
 

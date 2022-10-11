@@ -1,31 +1,18 @@
 <template>
   <div
-    class="pb-10"
-    :class="{ 'border-b border-b-regular-2': !disableBottomLine }"
+    class="last:mb-0"
+    :class="{
+      'border-b border-b-regular-2': !disableBottomLine && !subRow,
+      'pb-10 mb-6': !subRow,
+      'w-full mb-7': subRow,
+    }"
   >
-    <div v-if="title" class="text-2xl mb-5 font-semibold">{{ title }}</div>
+    <BaseTypography v-if="title" tag="div" type="title5">{{
+      title
+    }}</BaseTypography>
 
-    <div class="flex">
-      <div
-        :class="{
-          'basis-full': !slots['input-2'],
-          'basis-1/2 mr-6': slots['input-2'],
-        }"
-      >
-        <slot name="input-1" />
-      </div>
-      <div v-if="slots['input-2']" class="basis-1/2">
-        <slot name="input-2" />
-      </div>
-    </div>
-
-    <div v-if="slots['input-3'] || slots['input-4']" class="flex mt-6">
-      <div v-if="slots['input-3']" class="basis-1/2 mr-6">
-        <slot name="input-3" />
-      </div>
-      <div v-if="slots['input-4']" class="basis-1/2">
-        <slot name="input-4" />
-      </div>
+    <div class="flex" :class="{ 'flex-wrap': wrap }">
+      <slot />
     </div>
   </div>
 </template>
@@ -34,6 +21,8 @@
 interface RowProps {
   title?: string;
   disableBottomLine?: boolean;
+  subRow?: boolean;
+  wrap?: boolean;
 }
 
 defineProps<RowProps>();
