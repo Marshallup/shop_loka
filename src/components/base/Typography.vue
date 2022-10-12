@@ -18,7 +18,7 @@ interface TypographyProps {
     | "title3"
     | "title2"
     | "title1";
-  type?: "title2" | "title4" | "title5";
+  type?: "title2" | "title4" | "title5" | "text1" | "small1";
 }
 
 const props = withDefaults(defineProps<TypographyProps>(), {
@@ -57,6 +57,10 @@ const typeClasses = computed(() => {
       return "text-2xl";
     case "title5":
       return "text-2xl mb-5 font-semibold";
+    case "text1":
+      return "text-xl";
+    case "small1":
+      return "text-sm";
     default:
       return "";
   }

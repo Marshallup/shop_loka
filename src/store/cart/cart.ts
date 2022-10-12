@@ -2,6 +2,7 @@ import { defineStore } from "pinia"
 import { GoodCart, FormCheckoutValues } from "./types";
 import { Good } from "../../domain/good";
 import { CART_STEPS } from "./enums";
+import { getUniqID } from "~~/src/utils/helpers";
 
 function getInitCheckoutValues(): FormCheckoutValues {
   return {
@@ -66,6 +67,14 @@ export const useCartStore = defineStore('cart', () => {
     }
   }
 
+  function getGoods() {
+    return unref(goods).map(({ count, good }) => ({
+      id: getUniqID(),
+      good,
+      count,
+    }));
+  }
+
   function removeGood(goodID: number) {
     const goodIdx = unref(goods).findIndex(goodItem => goodItem.id === goodID);
 
@@ -95,6 +104,7 @@ export const useCartStore = defineStore('cart', () => {
     goods,
     countGoods,
     totalPrice,
+    getGoods,
     incCountGood,
     decCountGood,
     addGood,
