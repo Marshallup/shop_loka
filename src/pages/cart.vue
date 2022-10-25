@@ -1,3 +1,96 @@
+<script setup lang="ts">
+import { GoodCart, useCartStore } from "@/store/cart";
+import { useOrdersStore } from "@/store/orders";
+import { FormCheckoutValues } from "@/store/cart";
+import { ITableRow } from "@/types/components/tableCheckout";
+import { CART_STEPS } from "@/store/cart/enums";
+import { rubFormat } from "../utils/priceFormat";
+
+const cartStore = useCartStore();
+const ordersStore = useOrdersStore();
+
+const goods = computed(() => cartStore.goods);
+const totalPrice = computed(() => cartStore.totalPrice);
+const countGoods = computed(() => cartStore.countGoods);
+
+const isCartStep = computed(
+  () => unref(cartStore).cartStep === CART_STEPS.CHANGE_ORDER_STEP
+);
+const isCheckoutStep = computed(
+  () => unref(cartStore).cartStep === CART_STEPS.FORM_STEP
+);
+const isShowOrderDataStep = computed(
+  () => unref(cartStore).cartStep === CART_STEPS.CLIENT_DATA_STEP
+);
+const isProcessedOrder = ref(false);
+
+const checkoutValues = computed({
+  get: () => cartStore.checkoutValues,
+  set: (val) => (cartStore.checkoutValues = val),
+});
+
+const tableCardOrderData = computed<ITableRow[]>(() => {
+  const values = unref(checkoutValues);
+
+  const createTableRow = <T, T2>(title: string, text: T2) => ({
+    title,
+    text,
+  });
+
+  return [
+    createTableRow("Имя", values.name),
+    createTableRow("Фамилия", values.surname),
+    createTableRow("Email", values.email),
+    createTableRow("Телефон", String(values.phone)),
+    createTableRow("Страна", values.country),
+    createTableRow("Город", values.city),
+    createTableRow("Почтовый индекс", values.index),
+    createTableRow("Адрес", values.address),
+    createTableRow("Комментарий", values.comment || "-"),
+  ];
+});
+
+const leftTitle = computed(() => {
+  if (unref(isProcessedOrder)) {
+    return "Заказ оформлен";
+  }
+
+  if (unref(isCartStep)) {
+    return "Корзина";
+  } else if (unref(isCheckoutStep)) {
+    return "Оформление заказа";
+  } else if (unref(isShowOrderDataStep)) {
+    return "Все верно ?";
+  }
+
+  return "";
+});
+
+function onDeleteGoodCart(id: number) {
+  cartStore.removeGood(id);
+}
+function onUpdateGoodCount(value: GoodCart["count"], id: GoodCart["id"]) {
+  cartStore.setGoodCount(value, id);
+}
+function onInitOrder() {
+  isProcessedOrder.value = true;
+  ordersStore.addOrder(1, cartStore.getGoods());
+  cartStore.resetCart();
+  ordersStore.setCurrentOrderID(1);
+}
+function onSubmitCheckout(values: FormCheckoutValues) {
+  checkoutValues.value = values;
+  cartStore.nextStep();
+}
+function onChangeOrder() {
+  cartStore.prevStep();
+}
+
+definePageMeta({
+  middleware: ["auth"],
+});
+</script>
+
 <template>
   <div class="mt-10">
     <BaseHeaderSpace />
@@ -91,94 +184,5 @@
     </BaseContainer>
   </div>
 </template>
-
-<script setup lang="ts">
-import { GoodCart, useCartStore } from "@/store/cart";
-import { useOrdersStore } from "@/store/orders";
-import { FormCheckoutValues } from "@/store/cart";
-import { ITableRow } from "@/types/components/tableCheckout";
-import { CART_STEPS } from "@/store/cart/enums";
-import { rubFormat } from "../utils/priceFormat";
-
-const cartStore = useCartStore();
-const ordersStore = useOrdersStore();
-
-const goods = computed(() => cartStore.goods);
-const totalPrice = computed(() => cartStore.totalPrice);
-const countGoods = computed(() => cartStore.countGoods);
-
-const isCartStep = computed(
-  () => unref(cartStore).cartStep === CART_STEPS.CHANGE_ORDER_STEP
-);
-const isCheckoutStep = computed(
-  () => unref(cartStore).cartStep === CART_STEPS.FORM_STEP
-);
-const isShowOrderDataStep = computed(
-  () => unref(cartStore).cartStep === CART_STEPS.CLIENT_DATA_STEP
-);
-const isProcessedOrder = ref(false);
-
-const checkoutValues = computed({
-  get: () => cartStore.checkoutValues,
-  set: (val) => (cartStore.checkoutValues = val),
-});
-
-const tableCardOrderData = computed<ITableRow[]>(() => {
-  const values = unref(checkoutValues);
-
-  const createTableRow = <T, T2>(title: string, text: T2) => ({
-    title,
-    text,
-  });
-
-  return [
-    createTableRow("Имя", values.name),
-    createTableRow("Фамилия", values.surname),
-    createTableRow("Email", values.email),
-    createTableRow("Телефон", String(values.phone)),
-    createTableRow("Страна", values.country),
-    createTableRow("Город", values.city),
-    createTableRow("Почтовый индекс", values.index),
-    createTableRow("Адрес", values.address),
-    createTableRow("Комментарий", values.comment || "-"),
-  ];
-});
-
-const leftTitle = computed(() => {
-  if (unref(isProcessedOrder)) {
-    return "Заказ оформлен";
-  }
-
-  if (unref(isCartStep)) {
-    return "Корзина";
-  } else if (unref(isCheckoutStep)) {
-    return "Оформление заказа";
-  } else if (unref(isShowOrderDataStep)) {
-    return "Все верно ?";
-  }
-
-  return "";
-});
-
-function onDeleteGoodCart(id: number) {
-  cartStore.removeGood(id);
-}
-function onUpdateGoodCount(value: GoodCart["count"], id: GoodCart["id"]) {
-  cartStore.setGoodCount(value, id);
-}
-function onInitOrder() {
-  isProcessedOrder.value = true;
-  ordersStore.addOrder(1, cartStore.getGoods());
-  cartStore.resetCart();
-  ordersStore.setCurrentOrderID(1);
-}
-function onSubmitCheckout(values: FormCheckoutValues) {
-  checkoutValues.value = values;
-  cartStore.nextStep();
-}
-function onChangeOrder() {
-  cartStore.prevStep();
-}
-</script>
 
 <style scoped></style>
